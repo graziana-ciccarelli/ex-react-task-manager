@@ -1,22 +1,14 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext } from "react";
+import useTasks from "../hooks/useTasks";
 
 export const GlobalContext = createContext();
-export function GlobalProvider({ children }) {
-  const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    fetch ('http://localhost:3001/tasks')
-    
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Tasks ricevuti:", data);
-        setTasks(data);
-      })
-      .catch((err) => console.error("Errore nel fetch dei task", err));
-  }, []);
+export function GlobalProvider({ children }) {
+ 
+  const { tasks, addTask, removeTask, updateTask } = useTasks();
 
   return (
-    <GlobalContext.Provider value={{ tasks, setTasks }}>
+    <GlobalContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>
       {children}
     </GlobalContext.Provider>
   );
