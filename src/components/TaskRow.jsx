@@ -1,19 +1,20 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const TaskRow = React.memo(({ task }) => {
-  const { title, status, createdAt } = task;
+  const { id, title, status, createdAt } = task;
 
-  // Stile in base allo stato
+  // Stile in base allo stato del task
   let statusStyle = {};
   switch (status) {
     case 'To do':
-      statusStyle = { backgroundColor: 'red' }; 
+      statusStyle = { backgroundColor: 'red' };
       break;
     case 'Doing':
-      statusStyle = { backgroundColor: 'yellow' }; 
+      statusStyle = { backgroundColor: 'yellow' };
       break;
     case 'Done':
-      statusStyle = { backgroundColor: 'green' }; 
+      statusStyle = { backgroundColor: 'green' };
       break;
     default:
       statusStyle = {};
@@ -21,7 +22,10 @@ const TaskRow = React.memo(({ task }) => {
 
   return (
     <tr>
-      <td>{title}</td>
+      <td>
+        {/* Link che porta alla pagina di dettaglio del task */}
+        <Link to={`/task/${id}`}>{title}</Link>
+      </td>
       <td style={statusStyle}>{status}</td>
       <td>{new Date(createdAt).toLocaleDateString()}</td>
     </tr>

@@ -1,18 +1,16 @@
-import { useRef, useState } from 'react';
-import { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalContext';
+import React, { useState, useRef } from 'react';
+import useTasks from '../hooks/useTasks';
 
 function AddTask() {
   const [title, setTitle] = useState('');
   const descriptionRef = useRef();
   const statusRef = useRef();
+  const { addTask } = useTasks(); // addTask da useTasks
   const [error, setError] = useState('');
-  
-  const { addTask } = useContext(GlobalContext); 
 
   const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~";
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // Validazione del titolo
@@ -33,20 +31,17 @@ function AddTask() {
       title: title.trim(),
       description: descriptionRef.current.value.trim(),
       status: statusRef.current.value,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
-    // Aggiunta del task tramite la funzione addTask
-    const result = await addTask(newTask);
+    // Aggiungi il nuovo task utilizzando addTask
+    addTask(newTask);
+    alert("Task aggiunto con successo!");
 
-    if (result.success) {
-      alert('Task aggiunto con successo!');
-      setTitle('');
-      descriptionRef.current.value = '';
-      statusRef.current.value = 'To do';
-    } else {
-      alert(`Errore: ${result.message}`);
-    }
+    // Resetta il form
+    setTitle('');
+    descriptionRef.current.value = '';
+    statusRef.current.value = 'To do';
   };
 
   return (
@@ -65,10 +60,7 @@ function AddTask() {
 
         <div>
           <label>Descrizione:</label><br />
-          <textarea
-            ref={descriptionRef}
-            placeholder="Inserisci una descrizione"
-          ></textarea>
+          <textarea ref={descriptionRef} placeholder="Inserisci una descrizione"></textarea>
         </div>
 
         <div>

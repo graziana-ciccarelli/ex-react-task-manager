@@ -1,42 +1,56 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function useTasks() {
   const [tasks, setTasks] = useState([]);
 
-  // Caricamento iniziale dei task
+  // Recuperare i task da API
   useEffect(() => {
     fetch("http://localhost:3001/tasks")
       .then((res) => res.json())
       .then((data) => setTasks(data))
-      .catch((err) => console.error('Errore nel fetch:', err));
+      .catch((err) => console.error("Errore nel fetch:", err));
   }, []);
 
-  // Funzione per aggiungere un nuovo task
-  const addTask = async (newTask) => {
-    try {
-      const response = await fetch("http://localhost:3001/tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setTasks((prevTasks) => [...prevTasks, data.task]); // Aggiorniamo i task
-        return { success: true, task: data.task };
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      return { success: false, message: error.message };
-    }
+  // Funzione per aggiungere un task
+  const addTask = (newTask) => {
+    fetch("http://localhost:3001/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          // Se l'API ha restituito successo, aggiungiamo il task alla lista
+          setTasks((prevTasks) => [...prevTasks, data.task]);
+        } else {
+          console.error("Errore nell'aggiunta del task:", data.message);
+        }
+      })
+      .catch((err) => console.error("Errore nel POST dei task:", err));
   };
 
-  const removeTask = (id) => {};
-  const updateTask = (id, updatedData) => {};
+  // Funzione per eliminare un task
+  const removeTask = (taskId) => {
+    fetch(`http://localhost:3001/tasks/${taskId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+        } else {
+          console.error("Errore nell'eliminazione del task:", data.message);
+        }
+      })
+      .catch((err) => console.error("Errore nel DELETE del task:", err));
+  };
 
-  return { tasks, addTask, removeTask, updateTask };
+  return {
+    tasks,
+    addTask,
+    removeTask,
+  };
 }
