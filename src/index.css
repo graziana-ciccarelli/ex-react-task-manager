@@ -1,0 +1,203 @@
+/* ----- Layout di base ----- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5faff;
+  color: #222;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
+
+/* ----- NavBar ----- */
+nav {
+  background-color: #0389e9;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #333;
+}
+
+/* ----- Titoli ----- */
+h1, h2 {
+  color: #003366;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+/* ----- Tabella ----- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: white;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+th {
+  background-color: #3399ff;
+  color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+th:hover {
+  background-color: #2b87db;
+}
+
+/* Freccia per ordinamento */
+th::after {
+  content: " ▲"; 
+  font-size: 12px; 
+  opacity: 0.3; 
+  transition: opacity 0.2s ease; 
+}
+
+th.sorted-asc::after {
+  content: " ▲";
+  font-size: 12px; 
+  opacity: 1;
+}
+
+th.sorted-desc::after {
+  content: " ▼";
+  font-size: 12px; 
+  opacity: 1; 
+}
+
+/* Stato task */
+.status-to-do {
+  background-color: #ff7c7c;
+  color: #333;
+  font-weight: 500;
+}
+
+.status-doing {
+  background-color: #ffe74d;
+  color: #333;
+  font-weight: 500;
+}
+
+.status-done {
+  background-color: #21f051;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Righe alternate */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #eef6ff;
+}
+
+/* ----- Form ----- */
+form {
+  background-color: white;
+  padding: 15px;
+  margin-top: 25px;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+}
+
+form input, form textarea, form select {
+  width: 400px;
+  padding: 6px 8px;
+  margin-top: 5px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+form button {
+  padding: 8px 16px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+form button:hover {
+  background-color: #005fa3;
+}
+
+.delete-button {
+  background-color: rgb(200, 35, 35);
+  color: white;
+  margin-left: 15px;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: rgb(190, 0, 0);
+}
+
+.description {
+  font-size: 18px;
+  margin-left: 15px;
+}
+
+.status-p {
+  margin-left: 15px;
+  font-size: 16px;
+}
+
+.date-p {
+  margin-left: 15px;
+  font-size: 16px;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  form input, form textarea, form select {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  
+}

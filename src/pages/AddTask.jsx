@@ -46,10 +46,10 @@ function AddTask() {
 
   return (
     <div>
-      <h1>Aggiungi Nuovo Task</h1>
+      <h1>Aggiungi un nuovo Task</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Titolo:</label><br />
+          <label><strong>Titolo:</strong></label><br />
           <input
             type="text"
             value={title}
@@ -59,12 +59,12 @@ function AddTask() {
         </div>
 
         <div>
-          <label>Descrizione:</label><br />
+          <label><strong>Descrizione:</strong></label><br />
           <textarea ref={descriptionRef} placeholder="Inserisci una descrizione"></textarea>
         </div>
 
         <div>
-          <label>Stato:</label><br />
+          <label><strong>Stato:</strong></label><br />
           <select ref={statusRef} defaultValue="To do">
             <option value="To do">To do</option>
             <option value="Doing">Doing</option>

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 export default function useTasks() {
   const [tasks, setTasks] = useState([]);
 
-  // Recuperare i task da API
   useEffect(() => {
     fetch("http://localhost:3001/tasks")
       .then((res) => res.json())
@@ -23,13 +22,36 @@ export default function useTasks() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          // Se l'API ha restituito successo, aggiungiamo il task alla lista
           setTasks((prevTasks) => [...prevTasks, data.task]);
         } else {
           console.error("Errore nell'aggiunta del task:", data.message);
         }
       })
       .catch((err) => console.error("Errore nel POST dei task:", err));
+  };
+
+  // Funzione per aggiornare un task
+  const updateTask = (updatedTask) => {
+    fetch(`http://localhost:3001/tasks/${updatedTask.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.id === updatedTask.id ? data.task : task
+            )
+          );
+        } else {
+          throw new Error(data.message);
+        }
+      })
+      .catch((err) => console.error("Errore nell'aggiornamento del task:", err));
   };
 
   // Funzione per eliminare un task
@@ -52,5 +74,6 @@ export default function useTasks() {
     tasks,
     addTask,
     removeTask,
+    updateTask,  // Aggiungi updateTask all'oggetto restituito
   };
 }
