@@ -1,20 +1,23 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 
-function Modal({ title, content, show, onClose, onConfirm, confirmText = "Conferma" }) {
-  if (!show) return null;
+const modalRoot = document.getElementById('modal-root') || document.body;
 
+function Modal({ children, onClose }) {
   return ReactDOM.createPortal(
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>{title}</h2>
-        <div>{content}</div>
-        <div className="modal-buttons">
-          <button onClick={onClose}>Annulla</button>
-          <button onClick={onConfirm}>{confirmText}</button>
-        </div>
+    <div className="modal-overlay">
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="close-modal"
+          onClick={onClose}
+          aria-label="Chiudi modale"
+        >
+          &times;
+        </button>
+        {children}
       </div>
     </div>,
-    document.body
+    modalRoot
   );
 }
 
